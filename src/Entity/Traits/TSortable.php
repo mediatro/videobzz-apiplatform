@@ -5,6 +5,7 @@ namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TSortable {
 
@@ -13,6 +14,7 @@ trait TSortable {
      * @Gedmo\SortablePosition()
      * @ORM\Column(name="position", type="integer")
      */
+    #[Groups(['albums'])]
     protected int $position;
 
     public function getPosition(): ?int

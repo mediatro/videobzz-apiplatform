@@ -4,6 +4,7 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TApprovalStatus {
 
@@ -11,18 +12,21 @@ trait TApprovalStatus {
      * Admin approval status Enum [PENDING, ACTIVE, REJECTED]
      * @ORM\Column(type="string")
      */
+    #[Groups(['albums'])]
     protected string $approvalStatus = 'PENDING';
 
     /**
      * Admin approval rejection reasons Array<Enum [OFFENSIVE, COPYRIGHT_SOUNDTRACK, COPYRIGHT_CONTENT, LENGTH, QUALITY, OTHER]>
      * @ORM\Column(type="simple_array")
      */
+    #[Groups(['albums'])]
     protected array $rejectionReasons = [];
 
     /**
      * Other admin approval rejection reason details in free text
      * @ORM\Column(type="string", nullable=true)
      */
+    #[Groups(['albums'])]
     protected ?string $rejectionReasonOther;
 
     public function getApprovalStatus(): ?string

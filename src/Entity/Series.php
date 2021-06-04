@@ -18,7 +18,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity()
@@ -39,7 +38,7 @@ class Series {
      * Keywords as simple string array (no comma allowed!)
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    protected ?array $keywords = [];
+    protected array $keywords = [];
 
     /**
      * Description in html

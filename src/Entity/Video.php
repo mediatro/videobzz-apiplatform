@@ -12,11 +12,12 @@ use App\Entity\Traits\TInteractionCounters;
 use App\Entity\Traits\TNamed;
 use App\Entity\Traits\TRecord;
 use App\Entity\Traits\TSortable;
+use App\Entity\Traits\TTimestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
@@ -26,7 +27,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Video {
 
     use TRecord;
-    use TimestampableEntity;
+    use TTimestampable;
     use TSortable;
     use TInteractionCounters;
     use TApprovalStatus;
@@ -41,6 +42,7 @@ class Video {
      * Thumbnail image absolute url
      * @ORM\Column(type="string")
      */
+    #[Groups(['albums'])]
     protected string $thumbnailImageUrl;
 
 
@@ -55,7 +57,7 @@ class Video {
      * Value for currency or % symbol accent
      * @ORM\Column(type="float", nullable=true)
      */
-    protected float $symbolValue;
+    protected ?float $symbolValue;
 
     /**
      * Soundtrack codename

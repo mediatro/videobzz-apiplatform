@@ -4,33 +4,39 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TInteractionCounters {
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected int $shareCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected int $downloadCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected int $linkCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected int $playCount = 0;
 
     /**
      * Persistent Aggregate column
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected int $totalInteractionsCount = 0;
 
     public function getShareCount(): ?int

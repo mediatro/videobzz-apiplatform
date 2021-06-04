@@ -13,44 +13,47 @@ use App\Entity\Traits\TInteractionCounters;
 use App\Entity\Traits\TNamed;
 use App\Entity\Traits\TRecord;
 use App\Entity\Traits\TSortable;
+use App\Entity\Traits\TTimestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
  */
-#[ApiResource]
+#[ApiResource(normalizationContext: ['groups' => ['albums']])]
 #[ApiFilter(OrderFilter::class, properties: ['name'], arguments: ['orderParameterName' => 'order'])]
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
 class Album {
 
     use TRecord;
     use TNamed;
-    use TimestampableEntity;
+    use TTimestampable;
     use TSortable;
     use TInteractionCounters;
     use TApprovalStatus;
-
 
     /**
      * Position at the public frontend
      * @ORM\Column(type="integer", nullable=true)
      */
+    #[Groups(['albums'])]
     protected ?int $pageNumber;
 
     /**
      * Position at the public frontend
      * @ORM\Column(type="integer", nullable=true)
      */
+    #[Groups(['albums'])]
     protected ?int $lineNumber;
 
     /**
      * Position at the public frontend
      * @ORM\Column(type="integer", nullable=true)
      */
+    #[Groups(['albums'])]
     protected ?int $playerNumber;
 
 
@@ -66,8 +69,6 @@ class Album {
      * @ORM\Column(type="string")
      */
     protected $contentSubtype;
-
-
 
 
 
@@ -90,6 +91,7 @@ class Album {
      * @ORM\ManyToOne(targetEntity="App\Entity\Contributor", inversedBy="albums")
      * @Gedmo\SortableGroup()
      */
+    #[Groups(['albums'])]
     protected $contributor;
 
     /**
@@ -102,6 +104,7 @@ class Album {
      * Propagated reference to the first video of the first series
      * @ORM\OneToOne(targetEntity="App\Entity\Video")
      */
+    #[Groups(['albums'])]
     protected $thumbnailVideo;
 
 
@@ -110,12 +113,14 @@ class Album {
      * Persistent Aggregate field
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected $seriesCount = 0;
 
     /**
      * Persistent Aggregate field
      * @ORM\Column(type="integer")
      */
+    #[Groups(['albums'])]
     protected $videosCount = 0;
 
 
@@ -290,6 +295,14 @@ class Album {
 
     public function getThumbnailVideo(): ?Video
     {
+        if(!$this->thumbnailVideo){
+            if($this->getSeries()->count() > 0){
+                $firstSeries = $this->getSeries()->first();
+                if($firstSeries->getVideos()->count() > 0){
+                    $this->setThumbnailVideo($firstSeries->getVideos()->first());
+                }
+            }
+        }
         return $this->thumbnailVideo;
     }
 
