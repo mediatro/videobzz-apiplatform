@@ -17,7 +17,7 @@ trait TRecord {
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     protected int $id;
 

@@ -20,7 +20,7 @@ trait TTimestampable
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected $updatedAt;
 
     /**

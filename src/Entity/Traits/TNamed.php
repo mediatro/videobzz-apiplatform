@@ -12,7 +12,7 @@ trait TNamed {
      * Entity display name
      * @ORM\Column(type="string")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected string $name;
 
     public function getName(): string {

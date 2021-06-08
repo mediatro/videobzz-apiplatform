@@ -12,21 +12,21 @@ trait TApprovalStatus {
      * Admin approval status Enum [PENDING, ACTIVE, REJECTED]
      * @ORM\Column(type="string")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected string $approvalStatus = 'PENDING';
 
     /**
      * Admin approval rejection reasons Array<Enum [OFFENSIVE, COPYRIGHT_SOUNDTRACK, COPYRIGHT_CONTENT, LENGTH, QUALITY, OTHER]>
      * @ORM\Column(type="simple_array")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected array $rejectionReasons = [];
 
     /**
      * Other admin approval rejection reason details in free text
      * @ORM\Column(type="string", nullable=true)
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected ?string $rejectionReasonOther;
 
     public function getApprovalStatus(): ?string

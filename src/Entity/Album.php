@@ -23,9 +23,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity()
  */
-#[ApiResource(normalizationContext: ['groups' => ['albums']])]
-#[ApiFilter(OrderFilter::class, properties: ['name'], arguments: ['orderParameterName' => 'order'])]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+#[ApiResource(
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['albums', 'album']]
+        ],
+        'put', 'patch', 'delete',
+    ],
+    normalizationContext: ['groups' => ['albums']],
+    order: ['position']
+)]
+#[ApiFilter(OrderFilter::class, properties: ['name', 'seriesCount'], arguments: ['orderParameterName' => 'order'])]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'category.id' => 'exact'])]
 class Album {
 
     use TRecord;
@@ -62,12 +71,14 @@ class Album {
      * Top level type of the content: Enum [BUSINESS, PRIVATE]
      * @ORM\Column(type="string")
      */
+    #[Groups(['albums'])]
     protected $contentType = 'BUSINESS';
 
     /**
      * Subtype of the content: Enum [PRODUCT, SERVICE] | Enum [EVENT, GENERIC]
      * @ORM\Column(type="string")
      */
+    #[Groups(['albums'])]
     protected $contentSubtype;
 
 
@@ -75,6 +86,7 @@ class Album {
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AlbumCategory")
      */
+    #[Groups(['albums'])]
     protected $category;
 
     /**
@@ -82,6 +94,7 @@ class Album {
      * @ORM\ManyToMany(targetEntity="App\Entity\AlbumSubcategory")
      * @ORM\JoinTable(name="album_to_subcategory_rels")
      */
+    #[Groups(['albums'])]
     protected $subCategories;
 
 
@@ -98,6 +111,7 @@ class Album {
      * At least one default series is always available, no orphan videos allowed
      * @ORM\OneToMany(targetEntity="App\Entity\Series", mappedBy="album")
      */
+    #[Groups(['album'])]
     protected $series;
 
     /**

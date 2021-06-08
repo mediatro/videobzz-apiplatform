@@ -14,7 +14,7 @@ trait TSortable {
      * @Gedmo\SortablePosition()
      * @ORM\Column(name="position", type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $position;
 
     public function getPosition(): ?int

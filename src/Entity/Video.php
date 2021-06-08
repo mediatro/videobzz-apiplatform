@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity()
  */
-#[ApiResource]
+#[ApiResource(order: ['position'])]
 #[ApiFilter(OrderFilter::class, properties: ['duration'])]
 class Video {
 
@@ -42,7 +42,7 @@ class Video {
      * Thumbnail image absolute url
      * @ORM\Column(type="string")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected string $thumbnailImageUrl;
 
 

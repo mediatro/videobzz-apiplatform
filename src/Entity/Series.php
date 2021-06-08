@@ -18,13 +18,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
  */
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['series', 'album']],
+    order: ['position']
+)]
 #[ApiFilter(OrderFilter::class, properties: ['name'])]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial'])]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'album.id' => 'exact'])]
 class Series {
 
     use TRecord;
@@ -76,6 +80,7 @@ class Series {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="series")
      */
+    #[Groups(['series', 'album'])]
     protected $videos;
 
     /**

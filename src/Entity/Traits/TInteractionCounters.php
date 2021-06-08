@@ -11,32 +11,32 @@ trait TInteractionCounters {
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $shareCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $downloadCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $linkCount = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $playCount = 0;
 
     /**
      * Persistent Aggregate column
      * @ORM\Column(type="integer")
      */
-    #[Groups(['albums'])]
+    #[Groups(['albums', 'series'])]
     protected int $totalInteractionsCount = 0;
 
     public function getShareCount(): ?int
