@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\Traits\TApprovalStatus;
@@ -33,8 +34,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['albums']],
     order: ['position']
 )]
-#[ApiFilter(OrderFilter::class, properties: ['name', 'seriesCount'], arguments: ['orderParameterName' => 'order'])]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'category.id' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'position', 'name',
+    'seriesCount', 'videosCount',
+    'createdAt', 'updatedAt',
+    'totalInteractionsCount'
+], arguments: ['orderParameterName' => 'order'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'contributor.id' => 'exact',
+
+    'approvalStatus' => 'exact',
+    'category.id' => 'exact',
+    'subCategories.id' => 'exact',
+    'contentType' => 'exact',
+    'contentSubtype' => 'exact',
+
+    'name' => 'partial',
+])]
+#[ApiFilter(DateFilter::class, properties: ['createdAt, updatedAt'])]
 class Album {
 
     use TRecord;

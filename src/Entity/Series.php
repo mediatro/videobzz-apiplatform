@@ -27,8 +27,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['series', 'album']],
     order: ['position']
 )]
-#[ApiFilter(OrderFilter::class, properties: ['name'])]
-#[ApiFilter(SearchFilter::class, properties: ['name' => 'partial', 'album.id' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'position', 'name',
+    'totalInteractionsCount'
+])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'contributor.id' => 'exact',
+    'album.id' => 'exact',
+
+    'approvalStatus' => 'exact',
+    'symbol.id' => 'exact',
+    'creativeMethod.id' => 'exact',
+    'environment.id' => 'exact',
+
+    'name' => 'partial',
+    'keywords' => 'partial',
+    'description' => 'partial',
+])]
 class Series {
 
     use TRecord;

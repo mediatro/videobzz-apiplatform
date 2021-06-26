@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\Traits\TApprovalStatus;
@@ -23,7 +24,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity()
  */
 #[ApiResource(order: ['position'])]
-#[ApiFilter(OrderFilter::class, properties: ['duration'])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'position', 'duration', 'symbolValue',
+    'createdAt', 'updatedAt',
+    'totalInteractionsCount'
+])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'series.id' => 'exact',
+
+    'approvalStatus' => 'exact',
+    'languageText.id' => 'exact',
+    'languageSubtitles.id' => 'exact',
+    'languageVoiceover.id' => 'exact',
+
+    'aspectRatio' => 'exact',
+    'soundtrack' => 'partial',
+])]
+#[ApiFilter(DateFilter::class, properties: ['createdAt, updatedAt'])]
 class Video {
 
     use TRecord;

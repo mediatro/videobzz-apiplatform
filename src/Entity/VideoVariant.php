@@ -3,7 +3,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\Traits\TRecord;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,6 +15,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  */
 #[ApiResource]
+#[ApiFilter(OrderFilter::class, properties: ['height', 'width'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'video.id' => 'exact',
+
+    'height' => 'exact',
+    'width' => 'exact',
+])]
 class VideoVariant {
 
     use TRecord;
